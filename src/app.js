@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import pbkdf2 from 'pbkdf2';
+import { pbkdf2Sync } from 'pbkdf2';
 
 const configHeader = `country=JP
 ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
@@ -24,7 +24,7 @@ new Vue({
       this.items.push({
         id: this.newSSID,
         passphrase: this.newPassphrase,
-        psk: this.newPassphrase.length !== 0 ? pbkdf2.pbkdf2Sync(this.newPassphrase, this.newSSID, 4096, 32, 'sha1').toString('hex') : '',
+        psk: this.newPassphrase.length !== 0 ? pbkdf2Sync(this.newPassphrase, this.newSSID, 4096, 32, 'sha1').toString('hex') : '',
       });
       this.newSSID = '';
       this.newPassphrase = '';
