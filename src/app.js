@@ -12,11 +12,16 @@ new Vue({
     newSSID: '',
     newPassphrase: '',
     items: [],
-    url: '#',
+    urlWPA: '#',
+    urlSSH: '#',
     config: '',
   },
   created() {
     this.makeConfigFile();
+    if (!window.navigator.msSaveBlob) {
+      const blob = new Blob([''], { type: 'text/plain' });
+      this.urlSSH = window.URL.createObjectURL(blob);
+    }
   },
   methods: {
     addItem(event) {
@@ -51,13 +56,20 @@ new Vue({
 
       if (!window.navigator.msSaveBlob) {
         const blob = new Blob([this.config], { type: 'text/plain' });
-        this.url = window.URL.createObjectURL(blob);
+        this.urlWPA = window.URL.createObjectURL(blob);
       }
     },
-    download() {
+    downloadWPA() {
       if (window.navigator.msSaveBlob) {
         const fileName = 'wpa_supplicant.conf';
         const blob = new Blob([this.config], { type: 'text/plain' });
+        window.navigator.msSaveBlob(blob, fileName);
+      }
+    },
+    downloadSSH() {
+      if (window.navigator.msSaveBlob) {
+        const fileName = 'ssh.txt';
+        const blob = new Blob([''], { type: 'text/plain' });
         window.navigator.msSaveBlob(blob, fileName);
       }
     },
