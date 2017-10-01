@@ -17,7 +17,7 @@
       <button v-on:click="deleteItem(item)">削除</button>
     </li>
   </ul>
-  <a href="#" v-bind:href="url" download="wpa_supplicant.conf"><button>設定ファイル作成</button></a>
+  <a href="#" v-bind:href="url" v-on:click="download" download="wpa_supplicant.conf"><button>設定ファイル作成</button></a>
 </div>
   <script src="dist/bundle.js"></script>
 </body>

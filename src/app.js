@@ -13,6 +13,7 @@ new Vue({
     newPassphrase: '',
     items: [],
     url: '#',
+    config: '',
   },
   created() {
     this.makeConfigFile();
@@ -36,8 +37,7 @@ new Vue({
       this.makeConfigFile();
     },
     makeConfigFile() {
-      const fileName = 'wpa_supplicant.conf';
-      const config = configHeader + this.items.map((item) => {
+      this.config = configHeader + this.items.map((item) => {
         let network = 'network={\n';
         network += `    ssid="${item.id}"\n`;
         if (item.psk !== '') {
@@ -48,13 +48,17 @@ new Vue({
         network += '}';
         return network;
       }).join('\n');
-      const blob = new Blob([config], { type: 'text/plain' });
 
-      if (window.navigator.msSaveBlob) {
-        window.navigator.msSaveBlob(blob, fileName);
-        window.navigator.msSaveOrOpenBlob(blob, fileName);
-      } else {
+      if (!window.navigator.msSaveBlob) {
+        const blob = new Blob([this.config], { type: 'text/plain' });
         this.url = window.URL.createObjectURL(blob);
+      }
+    },
+    download() {
+      if (window.navigator.msSaveBlob) {
+        const fileName = 'wpa_supplicant.conf';
+        const blob = new Blob([this.config], { type: 'text/plain' });
+        window.navigator.msSaveBlob(blob, fileName);
       }
     },
   },
