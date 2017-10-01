@@ -7,8 +7,8 @@
 </head>
 <body>
   <div id="js-itemList">
-  SSID: <input type="text" v-model="newSSID">
-  Passphrase: <input type="text" v-model="newPassphrase">
+  SSID: <input type="text" ref="ssid" v-model="newSSID" v-on:keydown.enter="addItem">
+  Passphrase: <input type="text" v-model="newPassphrase" v-on:keydown.enter="addItem">
   <button v-on:click="addItem">追加</button>
   <ul>
     <li v-for="item in items">

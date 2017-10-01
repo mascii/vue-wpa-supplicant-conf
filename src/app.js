@@ -16,11 +16,12 @@ new Vue({
     urlSSH: '#',
     config: '',
   },
-  created() {
+  mounted() {
     this.makeConfigFile();
     if (!window.navigator.msSaveBlob) {
       this.urlSSH = window.URL.createObjectURL(this.makeBlob(''));
     }
+    this.$refs.ssid.focus();
   },
   methods: {
     addItem(event) {
@@ -34,6 +35,7 @@ new Vue({
       this.newSSID = '';
       this.newPassphrase = '';
       this.makeConfigFile();
+      this.$refs.ssid.focus();
     },
     deleteItem(item) {
       const index = this.items.indexOf(item);
