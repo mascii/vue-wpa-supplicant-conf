@@ -19,8 +19,7 @@ new Vue({
   created() {
     this.makeConfigFile();
     if (!window.navigator.msSaveBlob) {
-      const blob = new Blob([''], { type: 'text/plain' });
-      this.urlSSH = window.URL.createObjectURL(blob);
+      this.urlSSH = window.URL.createObjectURL(this.makeBlob(''));
     }
   },
   methods: {
@@ -55,23 +54,23 @@ new Vue({
       }).join('\n');
 
       if (!window.navigator.msSaveBlob) {
-        const blob = new Blob([this.config], { type: 'text/plain' });
-        this.urlWPA = window.URL.createObjectURL(blob);
+        this.urlWPA = window.URL.createObjectURL(this.makeBlob(this.config));
       }
     },
     downloadWPA() {
       if (window.navigator.msSaveBlob) {
         const fileName = 'wpa_supplicant.conf';
-        const blob = new Blob([this.config], { type: 'text/plain' });
-        window.navigator.msSaveBlob(blob, fileName);
+        window.navigator.msSaveBlob(this.makeBlob(this.config), fileName);
       }
     },
     downloadSSH() {
       if (window.navigator.msSaveBlob) {
         const fileName = 'ssh.txt';
-        const blob = new Blob([''], { type: 'text/plain' });
-        window.navigator.msSaveBlob(blob, fileName);
+        window.navigator.msSaveBlob(this.makeBlob(''), fileName);
       }
+    },
+    makeBlob(content) {
+      return new Blob([content], { type: 'text/plain' });
     },
   },
 });
