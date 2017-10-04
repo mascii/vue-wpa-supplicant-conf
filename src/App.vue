@@ -1,4 +1,21 @@
-import Vue from 'vue';
+<template>
+  <div>
+    SSID: <input type="text" ref="ssid" v-model="newSSID" v-on:keydown.enter="addItem">
+    Passphrase: <input type="text" v-model="newPassphrase" v-on:keydown.enter="addItem">
+    <button v-on:click="addItem">追加</button>
+    <ul>
+      <li v-for="item in items">
+        SSID: {{item.id}},
+        Passphrase: {{item.passphrase}}
+        <button v-on:click="deleteItem(item)">削除</button>
+      </li>
+    </ul>
+    <a href="#" v-bind:href="urlWPA" v-on:click="downloadWPA" download="wpa_supplicant.conf"><button>wpa_supplicant.conf作成</button></a>
+    <a href="#" v-bind:href="urlSSH" v-on:click="downloadSSH" download="ssh.txt"><button>ssh.txt作成</button></a>
+  </div>
+</template>
+
+<script>
 import { pbkdf2Sync } from 'pbkdf2';
 
 const configHeader = `country=JP
@@ -6,15 +23,16 @@ ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
 update_config=1
 `;
 
-new Vue({
-  el: '#js-itemList',
-  data: {
-    newSSID: '',
-    newPassphrase: '',
-    items: [],
-    urlWPA: '#',
-    urlSSH: '#',
-    config: '',
+export default {
+  data() {
+    return {
+      newSSID: '',
+      newPassphrase: '',
+      items: [],
+      urlWPA: '#',
+      urlSSH: '#',
+      config: '',
+    };
   },
   mounted() {
     this.makeConfigFile();
@@ -75,4 +93,5 @@ new Vue({
       return new Blob([content], { type: 'text/plain' });
     },
   },
-});
+};
+</script>
