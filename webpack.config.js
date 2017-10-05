@@ -12,9 +12,6 @@ module.exports = {
         test: /\.js$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
-        query: {
-          presets: ['es2015', 'stage-2'],
-        },
       },
       {
         test: /\.vue$/,
@@ -24,9 +21,6 @@ module.exports = {
             loaders: {
               js: {
                 loader: 'babel-loader',
-                options: {
-                  presets: ['es2015', 'stage-2'],
-                },
               },
             },
           },
