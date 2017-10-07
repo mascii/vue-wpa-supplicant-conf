@@ -38,8 +38,10 @@ export default {
       config: '',
     };
   },
-  mounted() {
+  beforeMount() {
     this.makeConfigFile();
+  },
+  mounted() {
     this.$refs.ssid.focus();
   },
   methods: {
