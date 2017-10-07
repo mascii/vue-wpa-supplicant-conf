@@ -1,8 +1,10 @@
 <template>
   <div>
-    SSID: <input type="text" ref="ssid" v-model="newSSID" v-on:keydown.enter="addItem">
-    Passphrase: <input type="text" v-model="newPassphrase" v-on:keydown.enter="addItem">
-    <button v-on:click="addItem">追加</button>
+    <form v-on:submit="addItem">
+      SSID: <input type="text" name="newSSID" ref="ssid">
+      Passphrase: <input type="text" name="newPassphrase">
+      <button type="submit">追加</button>
+    </form>
     <ul>
       <li v-for="item in items">
         SSID: {{item.id}},
@@ -30,8 +32,6 @@ export default {
       urlSSH = window.URL.createObjectURL(this.makeBlob(''));
     }
     return {
-      newSSID: '',
-      newPassphrase: '',
       items: [],
       urlWPA: '#',
       urlSSH,
@@ -45,18 +45,23 @@ export default {
     this.$refs.ssid.focus();
   },
   methods: {
-    addItem(event) {
-      event.preventDefault();
-      if (this.newSSID.length === 0) return;
+    addItem(e) {
+      e.preventDefault();
+
+      const newSSID = e.target.newSSID.value;
+      const newPassphrase = e.target.newPassphrase.value;
+
+      if (newSSID.length === 0) return;
       this.items.push({
-        id: this.newSSID,
-        passphrase: this.newPassphrase,
-        psk: this.newPassphrase.length !== 0 ? pbkdf2Sync(this.newPassphrase, this.newSSID, 4096, 32, 'sha1').toString('hex') : '',
+        id: newSSID,
+        passphrase: newPassphrase,
+        psk: newPassphrase.length !== 0 ? pbkdf2Sync(newPassphrase, newSSID, 4096, 32, 'sha1').toString('hex') : '',
       });
-      this.newSSID = '';
-      this.newPassphrase = '';
       this.makeConfigFile();
-      this.$refs.ssid.focus();
+
+      e.target.newSSID.value = '';
+      e.target.newPassphrase.value = '';
+      e.target.newSSID.focus();
     },
     deleteItem(item) {
       const index = this.items.indexOf(item);
