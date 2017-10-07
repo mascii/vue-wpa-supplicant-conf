@@ -52,6 +52,7 @@ export default {
       const newPassphrase = e.target.newPassphrase.value;
 
       if (newSSID.length === 0) return;
+
       this.items.push({
         id: newSSID,
         passphrase: newPassphrase,
