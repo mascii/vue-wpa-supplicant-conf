@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form v-on:submit="addItem">
+    <form v-on:submit="addItem" autocomplete="off">
       SSID: <input type="text" name="newSSID" ref="ssid">
       Passphrase: <input type="text" name="newPassphrase">
       <button type="submit">追加</button>
