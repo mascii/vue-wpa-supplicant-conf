@@ -12,8 +12,12 @@
         <button v-on:click="deleteItem(item)">削除</button>
       </li>
     </ul>
-    <a v-bind:href="urlWPA" v-on:click="downloadWPA" download="wpa_supplicant.conf"><button>wpa_supplicant.conf作成</button></a>
-    <a v-bind:href="urlSSH" v-on:click="downloadSSH" download="ssh.txt"><button>ssh.txt作成</button></a>
+    <a v-bind:href="urlWPA" v-on:click="downloadWPA" download="wpa_supplicant.conf">
+      <button>wpa_supplicant.conf作成</button>
+    </a>
+    <a v-bind:href="urlSSH" v-on:click="downloadSSH" download="ssh.txt">
+      <button>ssh.txt作成</button>
+    </a>
   </div>
 </template>
 
