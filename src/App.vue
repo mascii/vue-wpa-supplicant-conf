@@ -25,20 +25,21 @@ update_config=1
 
 export default {
   data() {
+    let urlSSH = '#';
+    if (!window.navigator.msSaveBlob) {
+      urlSSH = window.URL.createObjectURL(this.makeBlob(''));
+    }
     return {
       newSSID: '',
       newPassphrase: '',
       items: [],
       urlWPA: '#',
-      urlSSH: '#',
+      urlSSH,
       config: '',
     };
   },
   mounted() {
     this.makeConfigFile();
-    if (!window.navigator.msSaveBlob) {
-      this.urlSSH = window.URL.createObjectURL(this.makeBlob(''));
-    }
     this.$refs.ssid.focus();
   },
   methods: {
