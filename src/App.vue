@@ -39,11 +39,10 @@ export default {
       items: [],
       urlWPA: '#',
       urlSSH,
-      config: '',
     };
   },
   beforeMount() {
-    this.makeConfigFile();
+    this.updateUrlWPA();
   },
   mounted() {
     this.$refs.ssid.focus();
@@ -62,7 +61,7 @@ export default {
         passphrase: newPassphrase,
         psk: newPassphrase.length !== 0 ? pbkdf2Sync(newPassphrase, newSSID, 4096, 32, 'sha1').toString('hex') : '',
       });
-      this.makeConfigFile();
+      this.updateUrlWPA();
 
       e.target.newSSID.value = '';
       e.target.newPassphrase.value = '';
@@ -71,10 +70,10 @@ export default {
     deleteItem(item) {
       const index = this.items.indexOf(item);
       this.items.splice(index, 1);
-      this.makeConfigFile();
+      this.updateUrlWPA();
     },
-    makeConfigFile() {
-      this.config = configHeader + this.items.map((item) => {
+    makeConfig() {
+      const config = configHeader + this.items.map((item) => {
         let network = 'network={\n';
         network += `    ssid="${item.id}"\n`;
         if (item.psk !== '') {
@@ -86,14 +85,19 @@ export default {
         return network;
       }).join('\n');
 
+      return config;
+    },
+    updateUrlWPA() {
       if (!window.navigator.msSaveBlob) {
-        this.urlWPA = window.URL.createObjectURL(this.makeBlob(this.config));
+        const content = this.makeConfig();
+        this.urlWPA = window.URL.createObjectURL(this.makeBlob(content));
       }
     },
     downloadWPA() {
       if (window.navigator.msSaveBlob) {
         const fileName = 'wpa_supplicant.conf';
-        window.navigator.msSaveBlob(this.makeBlob(this.config), fileName);
+        const content = this.makeConfig();
+        window.navigator.msSaveBlob(this.makeBlob(content), fileName);
       }
     },
     downloadSSH() {
