@@ -24,11 +24,6 @@
 <script>
 import { pbkdf2Sync } from 'pbkdf2';
 
-const configHeader = `country=JP
-ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
-update_config=1
-`;
-
 export default {
   data() {
     return {
@@ -72,7 +67,11 @@ export default {
       this.updateUrlWPA();
     },
     makeConfig() {
-      const config = configHeader + this.items.map((item) => {
+      let config = 'country=JP\n';
+      config += 'ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev\n';
+      config += 'update_config=1\n';
+
+      config += this.items.map((item) => {
         let network = 'network={\n';
         network += `    ssid="${item.id}"\n`;
         if (item.psk !== '') {
