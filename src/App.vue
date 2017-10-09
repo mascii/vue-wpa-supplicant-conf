@@ -31,18 +31,17 @@ update_config=1
 
 export default {
   data() {
-    let urlSSH = '#';
-    if (!window.navigator.msSaveBlob) {
-      urlSSH = window.URL.createObjectURL(this.makeBlob(''));
-    }
     return {
       items: [],
       urlWPA: '#',
-      urlSSH,
+      urlSSH: '#',
     };
   },
   beforeMount() {
     this.updateUrlWPA();
+    if (!window.navigator.msSaveBlob) {
+      this.urlSSH = window.URL.createObjectURL(this.makeBlob(''));
+    }
   },
   mounted() {
     this.$refs.ssid.focus();
