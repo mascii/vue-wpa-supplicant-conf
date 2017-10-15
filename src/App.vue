@@ -9,7 +9,7 @@
       <li v-for="item in items">
         SSID: {{item.id}},
         Passphrase: {{item.passphrase}}
-        <button v-on:click="deleteItem(item)">削除</button>
+        <button v-on:click="deleteItem(item)" class="button-small">削除</button>
       </li>
     </ul>
     <a v-bind:href="urlWPA" v-on:click="downloadWPA" download="wpa_supplicant.conf">
