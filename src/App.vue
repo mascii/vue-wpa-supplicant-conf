@@ -2,13 +2,13 @@
   <div>
     <form v-on:submit="addItem" autocomplete="off">
       SSID: <input type="text" name="newSSID" ref="ssid">
-      Passphrase: <input type="text" name="newPassphrase">
+      Passphrase: <input type="password" name="newPassphrase">
       <button type="submit">追加</button>
     </form>
     <ul>
       <li v-for="item in items">
-        SSID: {{item.id}},
-        Passphrase: {{item.passphrase}}
+        SSID: {{ item.id }},
+        Security: <span v-bind:class="{ 'sec-weak' : item.psk.length === 0 }">{{ (item.psk.length > 0) ? 'WPA2' : 'None' }}</span>
         <button v-on:click="deleteItem(item)" class="button-small">削除</button>
       </li>
     </ul>
@@ -52,7 +52,6 @@ export default {
 
       this.items.push({
         id: newSSID,
-        passphrase: newPassphrase,
         psk: newPassphrase.length !== 0 ? pbkdf2Sync(newPassphrase, newSSID, 4096, 32, 'sha1').toString('hex') : '',
       });
       this.updateUrlWPA();
