@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form v-on:submit="addItem" autocomplete="off">
+    <form @submit="addItem" autocomplete="off">
       SSID: <input type="text" name="newSSID" ref="ssid">
       Passphrase: <input type="password" name="newPassphrase">
       <button type="submit">追加</button>
@@ -8,14 +8,14 @@
     <ul>
       <li v-for="item in items">
         SSID: {{ item.id }},
-        Security: <span v-bind:class="{ 'sec-weak' : item.psk.length === 0 }">{{ (item.psk.length > 0) ? 'WPA2' : 'None' }}</span>
-        <button v-on:click="deleteItem(item)" class="button-small">削除</button>
+        Security: <span :class="{ 'sec-weak' : item.psk.length === 0 }">{{ (item.psk.length > 0) ? 'WPA2' : 'None' }}</span>
+        <button @click="deleteItem(item)" class="button-small">削除</button>
       </li>
     </ul>
-    <a v-bind:href="urlWPA" v-on:click="downloadWPA" download="wpa_supplicant.conf">
+    <a :href="urlWPA" @click="downloadWPA" download="wpa_supplicant.conf">
       <button>wpa_supplicant.conf作成</button>
     </a>
-    <a v-bind:href="urlSSH" v-on:click="downloadSSH" download="ssh.txt">
+    <a :href="urlSSH" @click="downloadSSH" download="ssh.txt">
       <button>ssh.txt作成</button>
     </a>
   </div>
