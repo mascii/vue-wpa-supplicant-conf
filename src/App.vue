@@ -9,7 +9,7 @@
       <li v-for="item in items">
         SSID: {{ item.id }},
         Security: <span :class="{ 'sec-weak' : item.psk.length === 0 }">{{ (item.psk.length > 0) ? 'WPA2' : 'None' }}</span>
-        <button @click="deleteItem(item)" class="button-small">削除</button>
+        <button @click="deleteItem(item)" class="button-small button-red">削除</button>
       </li>
     </ul>
     <a :href="urlWPA" @click="downloadWPA" download="wpa_supplicant.conf">
