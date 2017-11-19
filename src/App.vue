@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { pbkdf2Sync } from 'pbkdf2';
+import PBKDF2 from 'crypto-js/pbkdf2';
 
 export default {
   data() {
@@ -52,7 +52,7 @@ export default {
 
       this.items.push({
         id: newSSID,
-        psk: newPassphrase.length !== 0 ? pbkdf2Sync(newPassphrase, newSSID, 4096, 32, 'sha1').toString('hex') : '',
+        psk: newPassphrase.length !== 0 ? PBKDF2(newPassphrase, newSSID, { keySize: 8, iterations: 4096 }).toString() : '',
       });
       this.updateUrlWPA();
 
